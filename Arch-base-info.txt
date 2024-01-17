@@ -1,0 +1,211 @@
+1) настраиваем pacman. /etc/pacman.conf (включаем паралеллеьные скачивания)
+    1.1) меняем зеркала на россию reflector -c Russia -a 6 --sort rate --save /etc/pacman.d/mirrorlist
+2) создаем разделы жесткого диска cfdisk(проверка разделов lsblk)
+    2.1) EFI 1gb vda1
+    2.2) Linux SWAP vda2 равно колличество оперативной памяти
+    2.3) Linux system / 
+3) Формиатирование разедлов
+    3.1) mkfs.fat -F32 /dev/vda1
+    3.2) fatlabel /dev/vda1 ARCH
+    3.3) mkswap /dev/vda2
+4) Монтирование разедлов
+    4.1) swapon /dev/vda2
+    4.2) Два пути, 1 ext4, 2 btrfs
+        4.2.1) mkfs.ext4 /dev/vda3
+        4.2.2) mount --mkdir /dev/vda1 /mnt/boot
+        4.2.3) mount /dev/vda3 /mnt 
+        alt
+        4.2.1) #mkfs.btrfs -L ARCH /dev/vda3
+        4.2.2) mount /dev/vda3 /mnt 
+        4.2.3) btrfs su cr /mnt/@
+        4.2.4) btrfs su cr /mnt/@home
+        4.2.7) umount /mnt 
+        4.2.8) mount -o noatime,compress=zstd,ssd,discard=async,space_cache=v2,subvol=@ /dev/vda3 /mnt 
+        4.2.9) mkdir -p /mnt/{boot,home}
+        4.2.10) mount -o noatime,compress=zstd,ssd,discard=async,space_cache=v2,subvol=@home /dev/vda3 /mnt/home 
+        4.2.13) mount /dev/vda1 /mnt/boot
+
+
+#5) ПО ЖЕЛАНИЮ, поправить зеркала на россию 
+#    5.1) reflector -c Russia -a 6 --sort rate --save /etc/pacman.d/mirrorlist
+#    5.2) /etc/pacman.conf (включаем паралеллеьные скачивания)
+#    5.3) /etc/pacman.conf раскомичиваем multilib
+6) Устанавливаем в маунт ядро базу и прошивки pacstrap -K /mnt base linux linux-firmware reflector vim sudo intel-ucode git cpupower
+7) Генеруем таблицу разметки разделов FSTAB genfstab -U /mnt >> /mnt/etc/fstab
+8) переходим в корень системы arch-chroot /mnt 
+
+git clone https://gitflic.ru/project/zeusjke/arch-linux.git
+поменять пароль раскомитить рефайнд
+сделать мкинитцп и поставить политику перформанс на цпу
+
+
+
+
+    8.1) reflector -c Russia -a 6 --sort rate --save /etc/pacman.d/mirrorlist
+    8.2) /etc/pacman.conf (включаем паралеллеьные скачивания)
+    8.3) /etc/pacman.conf раскомичиваем multilib для 32 битных библиотек
+9) настраиваем локали и время 
+    9.1) ln -sf /usr/share/zoneinfo/Europe/Moscow /etc/localtime
+    9.2) генерируем аджтайм hwclock --systohc
+    9.3) Раскомичиваем в /etc/locale.gen en_US.UTF8 и ru_RU.UTF-8
+    9.4) генерим язык раскладки /etc/locale.conf LANG=en_US.UTF-8
+    9.5) генерим локали locale-gen
+    9.6) фиксим русский в терминале vim /etc/vconsole.conf и пишем KEYMAP=ru; FONT=cyr-sun16
+10) Создаем сетевые настройки и включаем
+    10.1) генерим файл /etc/hostname (например zeusjke-arch)
+    10.2) прописываем /etc/hosts 127.0.0.1 localhost; ::1 localhost; 127.0.1.1 (имя компа) zeusjke-arch.localdomain (имя компа) zeus-arch 
+    10.3) pacman -S networkmanager
+    10.3) включаем службу интернета systemctl enable NetworkManager
+11) задаем пароль суперпользователя passwd
+12) добавляем и настраиваем пользователя
+    12.1) добавляем пользователя useradd -m (имя пользователя) zeusjke
+    12.2) задаем пароль пользователя passwd (имя пользователя) zeusjke 
+    12.3) добавляем права пользователю usermod -aG wheel (имя пользователя) zeusjke
+    12.4) включаем sudo EDITOR=vim visudo и расскомичиваем @wheel=ALL(где все вил команды)
+13) Установка загрузчика 
+    13.1) Инициируем модуль btrfs amdgpu radeon
+        13.1.1) vim /etc/mkinitcpio.conf 
+        13.1.2) MODULES(amdgpu radeon btrfs)
+        13.1.3) mkinitcpio -p linux 
+    13.2 Установка refind 
+        13.1) pacman -S refind intel-ucode
+        13.2) refind-install
+        13.3) vim /boot/efi/EFI/refind.conf
+        13.4) заменяем uuid/PARTUUID на /dev/vda3, если BTRFS обязательнео rootflags=subvol=@ и и прописать микрокод пакета, убираем disable и исключаем поиск образов vmzux-linux
+        14.6) (если впадлу заниматься точечным конфигом) для иконки fatlabel /dev/vda1 ARCH
+    13.3) Установка grub
+        13.3.1) pacman -S grub grub-btrfs efibootmgr os-prober 
+        13.3.2) grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=grub
+        13.3.3) grub-mkconfig -o /boot/grub/grub.cfg 
+14) Установка драйвером
+    14.1) звук pacman -S pipewire
+    14.2) включение режима performance цп pacman -S cpupower
+        14.2.1)pacman -S cpupower
+        14.2.2)расскомичиваем строку governor='performance' в /etc/default/cpupower
+        14.2.3)включаем службу systemctl enable cpupower
+    14.3) установка видео дров pacman -S mesa
+    14.4) установка bluetooth
+        14.4.1) pacman -S bluez bluez-utils
+        14.4.2) systemctl enable bluetooth.service
+    14.5)
+15) Установка gnome(можно подчистить набор устанавливаемых пакетов по умолчанию)
+    GNOME
+    15.1) pacman -S gnome gnome-tweaks
+    15.2) systemctl enable gdm
+    KDE
+    15.1) pacman -S plasma
+    15.2) systemctl enable sddm
+16) exit и reboot
+Система установлена и минимально настроена
+
+Пост тюнинг
+1) устанавливаем необходимое ПО KDE 
+    1.1) pacman -S telegram-desktop discord code firefox konsole dolphin ark partitionmanager filelight 
+    1.2) pacman -S ktorrent spectacle gwenview papirus-icon-theme mangohud gamemode gamescope zsh
+    1.3) git clone https://aur.archlinux.org/paru.git && cd paru && makepkg -si
+    1.4) paru -S mattermost-desktop-bin spotify timeshift-autosnap portproton
+    1.5) отключить автозаполнение и сохранение паролей в mazilla 
+1) устанвливаем необходимое ПО 
+    1.1) zsh
+        1.1.1) sudo pacman -S zsh git
+        1.1.2) sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+    1.2) flatpak
+        1.2.1) sudo pacman -S flatpak 
+        1.2.2) search для поиска, install для установки(ищем по app id)
+    1.3) flatseal spotify mattermost telegram
+        1.3.1) flatpak install flatseal spotify mattermost telegram timeshift
+    1.4) steam
+        1.4.1) sudo pacman -S steam 
+    1.5) mangohud
+        1.5.1) sudo pacman -S mangohud
+        1.5.2) копируем из телеграмма MangoHud.conf
+        1.5.3) mkdir .config/Mangohud cp Documents/MangoHud.conf .config/MangoHud/MangoHud.conf
+    1.6) timeshift 
+        1.6.1) sudo pacman -S timeshift 
+    1.7) fragments
+        1.7.1) sudo pacman -S fragments
+    1.8) sshd демон для коннекта ssh 
+        1.8.1) sudo pacman -S sshd
+        1.8.2) sudo systemctl enable sshd
+    1.9) acpi acpi_call acpid библиотеки для работы с acpi протоколом(как реагировать на выключение экрана, нажатие кнопки питания)
+        1.9.1) sudo pacman -S sshd acpi acpi_call acpid 
+        1.9.2) sudo systemctl enable acpid
+
+
+видео драйвера:
+xf86-video-amdgpu --xorg драйвер для 2d
+xf86-video-ati --xorg драйвер для 2d
+libva-mesa-driver --для аппаратного декодирования на GPU
+vulkan-radeon --проприетарные драйвера для создания видео
+
+
+2) Устанавливаем AUR 
+    git clone https://aur.archlinux.org/yay.git
+    cd yay
+    makepkg -si
+
+    sudo pacman -S --needed base-devel
+    git clone https://aur.archlinux.org/paru.git
+    cd paru
+    makepkg -si
+
+3) расширения гном 
+    Appindicator Kstatus 
+    Vitals 
+    Status Area Horizontal Spacing 
+    Dash to Dock
+1.1) zsh
+    1.1.1) sudo pacman -S zsh git
+    1.1.2) sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+1.5) mangohud
+    1.5.1) sudo pacman -S mangohud
+    1.5.2) копируем из телеграмма MangoHud.conf
+    1.5.3) mkdir .config/Mangohud cp Documents/MangoHud.conf .config/MangoHud/MangoHud.conf
+1.7) torrent
+    1.7.1) flatpak install fragments
+    1.7.2) flatpak install qbittorent
+6) papirus icon
+    sudo pacman -S papirus-icon-theme
+    gnome-tweaks 
+7) steam 
+    sudo pacman -S steam 
+8) поправить refind.conf для запуска arch linux (заменить диск, добавить subvol и убрать /boot)
+9) Добавить vpn
+10) установить gnome-boxes
+12) Проверка политики performance на cpu 
+    cat /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor
+13) sudo timedatectl set-local-rtc 1 что пофиксить время в винде
+14) pacman -S gamemode
+    оптимизурет операционку под игры
+    запуск игр с gamemoderun manhohud %command%
+15) dota2 фикс с раскладкой клавы -input_button_code_is_scan_code 
+    можно еще включить -vulkan_disable_steam_shader_cache, тогда пропадут подгрузки в меня и начале игры
+    
+16) хороший записальшик флешек через мульти бут ventoy-bin (есть в AUR)
+17) обязательно 
+
+    cat /proc/sys/vm/max_map_count
+
+    /etc/sysctl.d/80-gamecompatibility.conf
+    vm.max_map_count = 2147483642
+    sysctl --system
+
+18) установка винды f10 + shift
+    (Пишем «regedit» без кавычек, что откроет редактор реестра.
+    Вот что важно. Мы должны создать папку и 3 записи.
+    Мы идем в HKEY_LOCAL_MACHINE/System/Setup, вторично щелкаем по этой папке и создаем ключ (папку) с именем Labconfig.
+    Щелкаем по этой папке.
+    Справа мы щелкаем правой кнопкой мыши / New / DWORD Value (32 бита) с именем BypassTPMCheck. Затем мы щелкаем правой кнопкой мыши по этому значению, выбираем «Изменить» и присваиваем ему значение 1.
+    Мы повторяем шаг 3 еще два раза, но один раз с BypassRAMCheck и еще один с BypassSecureBootCheck.)
+
+19) фикс шрифтов эмоджи, установить шрифт noto-fonts-emoji  
+
+20) Фикс шривтов GTK под QT(KDE), нужно установить xdg-desktop-portal-gtk
+
+
+    ОБНОВЛЕНИЕ 
+    paru
+    sudo pacman -Syu
+    flatpak update
+    Удаление пакеты обязательно чистить зависимости pacman -Russia
+    Очистка всех пакетов сирот sudo pacman -Qtdq | sudo pacman -Rns -

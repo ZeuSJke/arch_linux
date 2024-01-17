@@ -1,0 +1,6 @@
+устанавливаем pacman -S virt-manager
+устанавливаем qemu-full или qemu-desktop
+устанавливаем libvirt и  systemctl enable libvirtd
+устанавливаем freerdp
+Обязательно настраиваем bridge(сам настроение если делать не юзер сессию, обязетельно для винды)
+

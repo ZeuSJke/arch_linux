@@ -1,0 +1,6 @@
+hogwarts legacy mangohud gamemoderun %command%
+apex gamemoderun mangohud %command%
+cs2 gamescope -h 1440 -f gamemoderun mangohud %command% -novid -input_button_code_is_scan_code -nojoy -novr -vulkan -threads 6 -console
+dota2 gamescope -b -f -h 1440 --force-grab-cursor gamemoderun mangohud %command% -novid -input_button_code_is_scan_code -noborder -nojoy -novr -high -vulkan_disable_graphics_pipeline_library
+the finals gamemoderun mangohud %command% -dx11
+heroes 3 gamescope -h 1440 обязательно убрать галочку с курсором
