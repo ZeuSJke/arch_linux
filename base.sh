@@ -19,11 +19,15 @@ locale-gen
 echo "LANG=en_US.UTF-8" >> /etc/locale.conf
 echo "KEYMAP=ru" >> /etc/vconsole.conf
 echo "FONT=cyr-sun16" >> /etc/vconsole.conf
-echo "zeusjke-arch" >> /etc/hostname
+echo "Enter hostname"
+read hostname
+echo $hostname >> /etc/hostname
 echo "127.0.0.1 localhost" >> /etc/hosts
 echo "::1       localhost" >> /etc/hosts
-echo "127.0.1.1 zeusjke-arch.localdomain    zeusjke-arch" >> /etc/hosts
-echo root:password | chpasswd
+echo "127.0.1.1 $hostname.localdomain    $hostname" >> /etc/hosts
+echo "Enter password"
+read password
+echo root:$password | chpasswd
 
 pacman -Sy
 pacman -S --noconfirm networkmanager pipewire mesa bluez bluez-utils flatpak timeshift acpid openssh base-devel rsync htop xdg-utils neofetch inxi mangohud gamemode gamescope net-tools
@@ -45,11 +49,12 @@ systemctl enable cpupower
 systemctl enable sshd
 systemctl enable acpid
 
+echo "Enter username"
+read username
+useradd -m $username
+echo $username:$password | chpasswd
+usermod -aG wheel $username
 
-useradd -m zeusjke
-echo zeusjke:password | chpasswd
-usermod -aG wheel zeusjke
+echo "$username ALL=(ALL) ALL" >> /etc/sudoers.d/$username
 
-echo "zeusjke ALL=(ALL) ALL" >> /etc/sudoers.d/zeusjke
-
-printf "\e[1;32m Done!. Please reboot.\e[0m"
+echo "Done!. Please reboot."
