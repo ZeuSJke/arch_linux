@@ -9,7 +9,7 @@
 #change password 
 
 reflector -c Russia -a 6 --sort rate --save /etc/pacman.d/mirrorlist
-sed -i 's/#ParallelDownloads = 5/ParallelDownloads = 10/' /etc/pacman.conf
+sed -i "s/^#ParallelDownloads = .*/ParallelDownloads = 10/" /etc/pacman.conf
 sed -i "/\[multilib\]/,/Include/"'s/^#//' /etc/pacman.conf
 ln -sf /usr/share/zoneinfo/Europe/Moscow /etc/localtime
 hwclock --systohc
