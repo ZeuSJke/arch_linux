@@ -9,13 +9,12 @@
 #change password 
 
 reflector -c Russia -a 6 --sort rate --save /etc/pacman.d/mirrorlist
-sed -i '37s/.//' /etc/pacman.conf
-sed -i '90s/.//' /etc/pacman.conf
-sed -i '91s/.//' /etc/pacman.conf
+sed -i 's/#ParallelDownloads = 5/ParallelDownloads = 10/' /etc/pacman.conf
+sed -i "/\[multilib\]/,/Include/"'s/^#//' /etc/pacman.conf
 ln -sf /usr/share/zoneinfo/Europe/Moscow /etc/localtime
 hwclock --systohc
-sed -i '171s/.//' /etc/locale.gen
-sed -i '398s/.//' /etc/locale.gen
+sed -e '/en_US.UTF-8/s/^#*//g' -i /etc/locale.gen 
+sed -e '/ru_RU.UTF-8/s/^#*//g' -i /etc/locale.gen
 locale-gen
 echo "LANG=en_US.UTF-8" >> /etc/locale.conf
 echo "KEYMAP=ru" >> /etc/vconsole.conf
