@@ -24,7 +24,7 @@ echo root:$password | chpasswd
 pacman -Sy
 pacman -S --noconfirm networkmanager pipewire mesa bluez bluez-utils flatpak timeshift acpid openssh base-devel rsync htop xdg-utils neofetch inxi mangohud gamemode gamescope net-tools keepassxc
 
-sed -i 's/governor=''/governor='performance'/' /etc/default/cpupower
+echo "governor='performance'" >> /etc/default/cpupower
 
 sed -i 's/MODULES=()/MODULES=(amdgpu radeon btrfs)/' /etc/mkinitcpio.conf
 mkinitcpio -p linux 
@@ -56,4 +56,4 @@ usermod -aG wheel $username
 
 echo "$username ALL=(ALL) ALL" >> /etc/sudoers.d/$username
 
-echo "Done!. Please reboot."
+echo "Done! If toy you refind, plz make config refind_conf. Please reboot."
