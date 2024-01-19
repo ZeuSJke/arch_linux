@@ -1,13 +1,5 @@
 #!/bin/bash
 
-#FIRSTOFALL
-#vim /etc/mkinitcpio.conf 
-#MODULES(amdgpu radeon btrfs)
-#mkinitcpio -p linux 
-#vim /etc/default/cpupower
-#governor='performance'
-#change password 
-
 reflector -c Russia -a 6 --sort rate --save /etc/pacman.d/mirrorlist
 sed -i "s/^#ParallelDownloads = .*/ParallelDownloads = 10/" /etc/pacman.conf
 sed -i "/\[multilib\]/,/Include/"'s/^#//' /etc/pacman.conf
@@ -32,19 +24,24 @@ echo root:$password | chpasswd
 pacman -Sy
 pacman -S --noconfirm networkmanager pipewire mesa bluez bluez-utils flatpak timeshift acpid openssh base-devel rsync htop xdg-utils neofetch inxi mangohud gamemode gamescope net-tools keepassxc
 
+sed -i 's/governor=''/governor='performance'/' /etc/default/cpupower
+
 sed -i 's/MODULES=()/MODULES=(amdgpu radeon btrfs)/' /etc/mkinitcpio.conf
 mkinitcpio -p linux 
 
-#uncommit if want grub bootloader
-#pacman -S --noconfirm grub grub-btrfs efibootmgr os-prober 
-#grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=arch-grub
-#grub-mkconfig -o /boot/grub/grub.cfg 
 
-#uncommit if want refind bootloader !CHANGE! your mount device in base/refind_conf.conf
-#pacman -S --noconfirm refind
-#refind-install
-#rm /boot/refind_linux.conf
-#cp /arch-linux/refind_linux.conf /boot/refind_linux.conf
+echo "grub(1) or refind(2)"
+read bootloader
+if [ $bootloader == 1 ]; then 
+    pacman -S --noconfirm grub grub-btrfs efibootmgr os-prober 
+    grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=arch-grub
+    grub-mkconfig -o /boot/grub/grub.cfg 
+elif [ $bootloader == 2 ]; then 
+    pacman -S --noconfirm refind
+    refind-install
+    #rm /boot/refind_linux.conf
+    #cp /arch_linux/refind_linux.conf /boot/refind_linux.conf
+fi
 
 systemctl enable NetworkManager
 systemctl enable bluetooth
