@@ -29,7 +29,6 @@ sed -i 's/governor=''/governor='performance'/' /etc/default/cpupower
 sed -i 's/MODULES=()/MODULES=(amdgpu radeon btrfs)/' /etc/mkinitcpio.conf
 mkinitcpio -p linux 
 
-
 echo "grub(1) or refind(2)"
 read bootloader
 if [ $bootloader == 1 ]; then 
