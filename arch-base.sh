@@ -30,7 +30,10 @@ read password
 echo root:$password | chpasswd
 
 pacman -Sy
-pacman -S --noconfirm networkmanager pipewire mesa bluez bluez-utils flatpak timeshift acpid openssh base-devel rsync htop xdg-utils neofetch inxi mangohud gamemode gamescope net-tools
+pacman -S --noconfirm networkmanager pipewire mesa bluez bluez-utils flatpak timeshift acpid openssh base-devel rsync htop xdg-utils neofetch inxi mangohud gamemode gamescope net-tools keepassxc
+
+sed -i 's/MODULES=()/MODULES=(amdgpu radeon btrfs)/' /etc/mkinitcpio.conf
+mkinitcpio -p linux 
 
 #uncommit if want grub bootloader
 #pacman -S --noconfirm grub grub-btrfs efibootmgr os-prober 

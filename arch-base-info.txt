@@ -34,7 +34,7 @@
 7) Генеруем таблицу разметки разделов FSTAB genfstab -U /mnt >> /mnt/etc/fstab
 8) переходим в корень системы arch-chroot /mnt 
 
-git clone https://gitflic.ru/project/zeusjke/arch-linux.git
+git clone https://githib.com/zeusjke/arch_linux.git
 поменять пароль раскомитить рефайнд
 сделать мкинитцп и поставить политику перформанс на цпу
 
