@@ -1,6 +1,5 @@
 #!/bin/bash
 
-#git clone https://aur.archlinux.org/yay.git && cd yay && makepkg -si --noconfirm
 git clone https://aur.archlinux.org/paru.git && cd paru && makepkg -si --noconfirm
 
 echo "gnome(1) or kde(2)"
