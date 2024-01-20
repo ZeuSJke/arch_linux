@@ -22,9 +22,10 @@ read password
 echo root:$password | chpasswd
 
 pacman -Sy
-pacman -S --noconfirm networkmanager pipewire mesa bluez bluez-utils flatpak timeshift acpid openssh base-devel rsync htop xdg-utils neofetch inxi mangohud gamemode gamescope net-tools keepassxc
+pacman -S --noconfirm networkmanager pipewire mesa bluez bluez-utils flatpak timeshift acpid openssh base-devel xdg-utils neofetch inxi mangohud gamemode gamescope net-tools keepassxc steam noto-fonts-emoji
 
 sed -i "s/#governor='ondemand'/governor='performance'/" /etc/default/cpupower
+echo "vm.max_map_count = 2147483642" >> /etc/sysctl.d/80-gamecompatibility.conf
 
 sed -i 's/MODULES=()/MODULES=(amdgpu radeon btrfs)/' /etc/mkinitcpio.conf
 mkinitcpio -p linux 
@@ -47,7 +48,6 @@ fi
 systemctl enable NetworkManager
 systemctl enable bluetooth
 systemctl enable cpupower
-systemctl enable sshd
 systemctl enable acpid
 
 echo "Enter username"
