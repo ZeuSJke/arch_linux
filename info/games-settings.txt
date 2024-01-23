@@ -1,5 +1,5 @@
 hogwarts legacy gamemoderun mangohud %command%
-apex gamemoderun mangohud %command%
+apex gamemoderun mangohud %command% для фикса прыгающего курсора в kde нужно запускать с протоном 8.0.5, обазательно протестить в Plasma 6
 cs2 gamescope -h 1440 -f gamemoderun mangohud %command% -novid -input_button_code_is_scan_code -nojoy -novr -vulkan -threads 6 -console
 dota2 gamescope -b -f -h 1440 --force-grab-cursor gamemoderun mangohud %command% -novid -input_button_code_is_scan_code -noborder -nojoy -novr -high -vulkan_disable_graphics_pipeline_library
 the finals gamemoderun mangohud %command% -dx11

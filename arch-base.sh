@@ -9,6 +9,19 @@ sed -e '/en_US.UTF-8/s/^#*//g' -i /etc/locale.gen
 sed -e '/ru_RU.UTF-8/s/^#*//g' -i /etc/locale.gen
 locale-gen
 echo "LANG=en_US.UTF-8" >> /etc/locale.conf
+echo "LANGUAGE=en_US.UTF-8" >> /etc/locale.conf
+echo "LC_ADDRESS=ru_RU.UTF-8" >> /etc/locale.conf
+echo "LC_COLLATE=C" >> /etc/locale.conf
+echo "LC_CTYPE=en_US.UTF-8" >> /etc/locale.conf
+echo "LC_IDENTIFICATION=ru_RU.UTF-8" >> /etc/locale.conf
+echo "LC_MEASUREMENT=ru_RU.UTF-8" >> /etc/locale.conf
+echo "LC_MESSAGES=en_US.UTF-8" >> /etc/locale.conf
+echo "LC_MONETARY=ru_RU.UTF-8" >> /etc/locale.conf
+echo "LC_NAME=ru_RU.UTF-8" >> /etc/locale.conf
+echo "LC_NUMERIC=ru_RU.UTF-8" >> /etc/locale.conf
+echo "LC_PAPER=ru_RU.UTF-8" >> /etc/locale.conf
+echo "LC_TELEPHONE=ru_RU.UTF-8" >> /etc/locale.conf
+echo "LC_TIME=ru_RU.UTF-8" >> /etc/locale.conf
 echo "KEYMAP=ru" >> /etc/vconsole.conf
 echo "FONT=cyr-sun16" >> /etc/vconsole.conf
 echo "Enter hostname"
