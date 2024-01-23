@@ -55,7 +55,7 @@ elif [ $bootloader == 2 ]; then
     rm /boot/refind_linux.conf
     rm /boot/EFI/refind/refind.conf
     cp /arch_linux/refind_conf/refind_linux.conf /boot/refind_linux.conf
-    cp /arch_linux/refinc_conf/refind.conf /boot/EFI/refind/refind.conf
+    cp /arch_linux/refind_conf/refind.conf /boot/EFI/refind/refind.conf
 fi
 
 systemctl enable NetworkManager
