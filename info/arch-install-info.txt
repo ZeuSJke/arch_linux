@@ -206,6 +206,38 @@ vulkan-radeon --проприетарные драйвера для создан�
     Флэтпак не ставит языковые пакеты если раскатано более одной локали(ru en). нужно явном виде их прописать
     flatpak config --set languages 'ru;en' 
     flatpak update
+22) для корректного отображения эмодзи нужно добавить настройку(можно системно /usr/share/fontconfig/noto-mono/-sans/-serif)
+    необходимо создать файл в ~.conf/fontconfig/fonts.conf
+
+<?xml version="1.0"?>
+<!DOCTYPE fontconfig SYSTEM "fonts.dtd">
+<fontconfig>
+ <alias>
+  <family>sans-serif</family>
+  <prefer>
+   <family>Noto Sans</family>
+   <family>Noto Color Emoji</family>
+   <family>Noto Emoji</family>
+  </prefer>
+ </alias>
+  <alias>
+  <family>serif</family>
+  <prefer>
+   <family>Noto Serif</family>
+   <family>Noto Color Emoji</family>
+   <family>Noto Emoji</family>
+  </prefer>
+ </alias>
+  <alias>
+  <family>monospace</family>
+  <prefer>
+   <family>Noto Mono</family>
+   <family>Noto Color Emoji</family>
+   <family>Noto Emoji</family>
+  </prefer>
+ </alias>
+</fontconfig>
+
 
     ОБНОВЛЕНИЕ 
     paru
