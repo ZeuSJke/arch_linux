@@ -39,6 +39,7 @@ pacman -S mesa networkmanager pipewire bluez bluez-utils flatpak timeshift acpid
 
 sed -i "s/#governor='ondemand'/governor='performance'/" /etc/default/cpupower
 echo "vm.max_map_count = 2147483642" >> /etc/sysctl.d/80-gamecompatibility.conf
+setcap 'CAP_SYS_NICE=eip' $(which gamescope)
 
 sed -i 's/MODULES=()/MODULES=(amdgpu btrfs)/' /etc/mkinitcpio.conf
 mkinitcpio -p linux 
