@@ -1,4 +1,4 @@
 #!/bin/bash
 
 sudo pacman -S virt-manager qemu-desktop freerdp
-systemctl enable libvirtd
+sudo systemctl enable libvirtd
