@@ -20,9 +20,9 @@
         4.2.3) btrfs su cr /mnt/@
         4.2.4) btrfs su cr /mnt/@home
         4.2.7) umount /mnt 
-        4.2.8) mount -o noatime,compress=zstd,ssd,discard=async,space_cache=v2,subvol=@ /dev/vda3 /mnt 
+        4.2.8) mount -o noatime,compress=zstd,ssd,discard=async,subvol=@ /dev/vda3 /mnt 
         4.2.9) mkdir -p /mnt/{boot,home}
-        4.2.10) mount -o noatime,compress=zstd,ssd,discard=async,space_cache=v2,subvol=@home /dev/vda3 /mnt/home 
+        4.2.10) mount -o noatime,compress=zstd,ssd,discard=async,subvol=@home /dev/vda3 /mnt/home 
         4.2.13) mount /dev/vda1 /mnt/boot
 
 
