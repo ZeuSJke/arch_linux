@@ -66,10 +66,8 @@ systemctl enable acpid
 
 echo "Enter username"
 read username
-#useradd -m $username
 useradd -m -g users -G wheel -s /bin/zsh $username
 echo $username:$password | chpasswd
-#usermod -aG wheel $username
 
 echo "$username ALL=(ALL) ALL" >> /etc/sudoers.d/$username
 
