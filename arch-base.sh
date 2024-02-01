@@ -8,7 +8,6 @@ hwclock --systohc
 sed -e '/en_US.UTF-8/s/^#*//g' -i /etc/locale.gen 
 sed -e '/ru_RU.UTF-8/s/^#*//g' -i /etc/locale.gen
 locale-gen
-rm /boot/refind_linux.conf
 cp /arch_linux/other/locale.conf /etc/locale.conf
 echo "KEYMAP=ru" >> /etc/vconsole.conf
 echo "FONT=cyr-sun16" >> /etc/vconsole.conf
