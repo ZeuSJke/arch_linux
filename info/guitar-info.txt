@@ -1,2 +1,4 @@
-Нужны tonelib-gfx-bin tuxguitar
+Нужны tonelib-gfx-bin tuxguitar guitarix
 Правильно скомьницировать порты, тк в тонлиб обычный микрофон тоже заходит
+обязательно pipewire-jack и realtime-privileges к установке 
+добавить в группу audio и realtime

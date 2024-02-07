@@ -22,7 +22,7 @@ read password
 echo root:$password | chpasswd
 
 pacman -Sy
-pacman -S mesa networkmanager pipewire bluez bluez-utils flatpak timeshift acpid openssh base-devel xdg-utils neofetch inxi mangohud gamemode gamescope net-tools keepassxc steam noto-fonts-emoji noto-fonts libappimage zsh code
+pacman -S mesa networkmanager pipewire pipewire-jack bluez bluez-utils flatpak timeshift acpid openssh base-devel xdg-utils neofetch inxi mangohud gamemode gamescope net-tools keepassxc steam noto-fonts-emoji noto-fonts libappimage zsh code realtime-privileges
 
 sed -i "s/#governor='ondemand'/governor='performance'/" /etc/default/cpupower
 echo "vm.max_map_count = 2147483642" >> /etc/sysctl.d/80-gamecompatibility.conf
@@ -53,7 +53,7 @@ systemctl enable acpid
 
 echo "Enter username"
 read username
-useradd -m -g users -G wheel -s /bin/zsh $username
+useradd -m -g users -G wheel,audio,realtime -s /bin/zsh $username
 echo $username:$password | chpasswd
 
 echo "$username ALL=(ALL) ALL" >> /etc/sudoers.d/$username
