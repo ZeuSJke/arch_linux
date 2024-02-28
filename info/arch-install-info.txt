@@ -60,7 +60,7 @@ git clone https://githib.com/zeusjke/arch_linux.git
 12) добавляем и настраиваем пользователя
     12.1) добавляем пользователя useradd -m (имя пользователя) zeusjke
     12.2) задаем пароль пользователя passwd (имя пользователя) zeusjke 
-    12.3) добавляем права пользователю usermod -aG wheel,audio,realtime (имя пользователя) zeusjke
+    12.3) добавляем права пользователю usermod -aG wheel,audio,realtime,root (имя пользователя) zeusjke
     12.4) включаем sudo EDITOR=vim visudo и расскомичиваем @wheel=ALL(где все вил команды)
 13) Установка загрузчика 
     13.1) Инициируем модуль btrfs amdgpu radeon
