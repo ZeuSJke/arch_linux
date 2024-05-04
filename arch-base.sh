@@ -22,7 +22,7 @@ read password
 echo root:$password | chpasswd
 
 pacman -Sy
-pacman -S mesa networkmanager pipewire pipewire-jack bluez bluez-utils flatpak timeshift acpid openssh base-devel xdg-utils neofetch inxi mangohud gamemode gamescope net-tools keepassxc steam noto-fonts-emoji noto-fonts libappimage zsh code realtime-privileges
+pacman -S mesa networkmanager pipewire pipewire-jack bluez bluez-utils flatpak timeshift acpid openssh base-devel xdg-utils fastfetch inxi mangohud gamemode gamescope net-tools keepassxc steam noto-fonts-emoji noto-fonts libappimage zsh code realtime-privileges
 
 sed -i "s/#governor='ondemand'/governor='performance'/" /etc/default/cpupower
 echo "vm.max_map_count = 2147483642" >> /etc/sysctl.d/80-gamecompatibility.conf
