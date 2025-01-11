@@ -22,7 +22,7 @@ read password
 echo root:$password | chpasswd
 
 pacman -Sy
-pacman -S mesa networkmanager pipewire pipewire-jack bluez bluez-utils flatpak timeshift acpid openssh base-devel xdg-utils fastfetch inxi mangohud gamemode gamescope net-tools keepassxc steam noto-fonts-emoji noto-fonts libappimage zsh code realtime-privileges
+pacman -S mesa networkmanager mattermost-desktop pipewire pipewire-jack bluez bluez-utils flatpak timeshift acpid openssh base-devel xdg-utils fastfetch inxi mangohud gamemode gamescope net-tools keepassxc steam noto-fonts-emoji noto-fonts libappimage zsh code realtime-privileges
 
 sed -i "s/#governor='ondemand'/governor='performance'/" /etc/default/cpupower
 echo "vm.max_map_count = 2147483642" >> /etc/sysctl.d/80-gamecompatibility.conf
@@ -38,7 +38,7 @@ if [ $bootloader == 1 ]; then
     grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=arch-grub
     grub-mkconfig -o /boot/grub/grub.cfg 
 elif [ $bootloader == 2 ]; then 
-    pacman -S --noconfirm refind
+    pacman -S --noconfirm refind gdisk
     refind-install
     rm /boot/refind_linux.conf
     rm /boot/EFI/refind/refind.conf
