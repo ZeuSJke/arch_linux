@@ -5,3 +5,6 @@
 делаем диреткорию /mnt/keepass(xc) 
 Обящательно раздаем права пользователю на папку
 поднимаем демона для синкфинга 
+    sudo systemctl enable syncthing@zeusjke.service 
+    sudo systemctl start syncthing@zeusjke.service
+смотреть на http://localhost:8384/
