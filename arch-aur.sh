@@ -8,7 +8,7 @@ cp ~/.oh-my-zsh/templates/zshrc.zsh-template ~/.zshrc
 echo "gnome(1) or kde(2)"
 read de
 if [ $de == 1 ]; then 
-    paru -S --noconfirm spotify yandex-music timeshift-autosnap portproton resources extension-manager flatseal fragments-git 
+    paru -S --noconfirm spotify yandex-music timeshift-autosnap portproton extension-manager
 elif [ $de == 2 ]; then 
     paru -S --noconfirm spotify yandex-music timeshift-autosnap portproton
 fi
