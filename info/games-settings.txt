@@ -1,6 +1,7 @@
 hogwarts legacy gamemoderun mangohud %command%
 apex gamemoderun mangohud %command% для фикса прыгающего курсора в kde нужно запускать с протоном 8.0.5, обазательно протестить в Plasma 6
-cs2 gamescope -h 1440 -f gamemoderun mangohud %command% -novid -input_button_code_is_scan_code -nojoy -novr -vulkan -threads 6 -console
+cs2 gamescope -h 1440 -f gamemoderun mangohud %command% __GL_SHADER_DISK_CACHE_SKIP_CLEANUP=1 -novid -input_button_code_is_scan_code -nojoy -novr -vulkan -threads 6 -console
 dota2 gamescope -b -f -h 1440 --force-grab-cursor gamemoderun mangohud %command% -novid -input_button_code_is_scan_code -noborder -nojoy -novr -high -vulkan_disable_graphics_pipeline_library
 the finals gamemoderun mangohud %command% -dx11
 heroes 3 gamescope -h 1440 обязательно убрать галочку с курсором
+cs2 UPDATE для работы под wayland нужно закомитить в cs2.sh строку с x11 и добавить на запуск SDL_VIDEO_WAYLAND_ALLOW_LIBDECOR=0 __GL_SHADER_DISK_CACHE_SKIP_CLEANUP=1 SDL_VIDEO_MINIMIZE_ON_FOCUS_LOSS=0
